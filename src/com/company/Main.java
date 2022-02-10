@@ -21,7 +21,7 @@ public class Main {
                     case "room2Left":
                         actions.remove("eat");
                         System.out.println("You throw the POTATO at the CAKE and it explodes. This reveals an ORANGE KEY that was hidden in the CAKE.\nKeyword:\"orangekey\"");
-                        inventory.put("orangekey", () -> {
+                        inventory.put("orangekey", () -> { //orange goes in orange room/orange fruit player will stay mad
                             switch(room) {
                                 default:
                                     System.out.println("You can't use this key here.");
@@ -109,6 +109,13 @@ public class Main {
         newActions.put("leave and enter yellow door", () -> {
         });
         return newActions;
+    }
+    public static HashMap<String,Runnable> yellowRoom(){
+        room = "yellowRoom";
+        System.out.println("you are now in the yellow");
+        System.out.println(" the sun is being contained in the yellow room");
+        System.out.println("the sun burns you :(");
+       return null;
     }
 
 }
