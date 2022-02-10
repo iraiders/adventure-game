@@ -19,6 +19,7 @@ public class Main {
             inventory.put("potato", () -> {
                 switch(room) {
                     case "room2Left":
+                        actions.remove("eat");
                         System.out.println("You throw the POTATO at the CAKE and it explodes. This reveals an ORANGE KEY that was hidden in the CAKE.\nKeyword:\"orangekey\"");
                         inventory.put("orangekey", () -> {
                             switch(room) {
@@ -58,12 +59,24 @@ public class Main {
         //takes input as long as player is alive
         while (HP != 0) {
             String choice = scan.nextLine();
+            String itemChoice = "";
             switch (choice) {
                 case "inventory":
-                    inventory.get(scan.nextLine()).run();
+                    System.out.println("--Inventory--");
+                    itemChoice = scan.nextLine();
+                    if (inventory.get(itemChoice) != null) {
+                        inventory.get(itemChoice).run();
+                    } else {
+                        System.out.println("You don't have a(n) " + itemChoice);
+                    }
+
                     break;
                 default:
-                    actions.get(choice).run();
+                    if(actions.get(choice) != null) {
+                        actions.get(choice).run();
+                    } else {
+                        System.out.println("You can't " + choice + " here.");
+                    }
             }
         }
         if (HP == 0) {
