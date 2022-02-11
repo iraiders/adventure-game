@@ -12,7 +12,7 @@ public class Main {
     private static HashMap<String, Runnable> actions = new HashMap<>();
     private static HashMap<String, Runnable> inventory = new HashMap<>();
     static String room = "";
-    static int HP = 10;
+    static int HP = 4;
 
     public static void main(String[] args) {
 
@@ -23,31 +23,33 @@ public class Main {
 
 
         room = "roomOne";
-        System.out.println("You wake up in a dark room. You find three objects in front of you, but you can't quite see what they are.\nItems may be used at any time by typing \"inventory\" but will only prove to be useful in certain situations.\n\"left\" \"middle\" \"right\" \"continue\" (You can select several objects)");
+        System.out.println("You wake up in a dark room. You find three objects in front of you, but you can't quite see what they are.\nItems may be used at any time by typing \"inventory\" but will only prove to be useful in certain situations.\n\"pickup left\" \"pickup middle\" \"pickup right\" \"continue\" (You can select several objects)");
 
-        actions.put("left", () -> {
+        actions.put("pickup left", () -> {
             System.out.println("You pick up a half-eaten potato.\nKeyword:\"potato\"");
             inventory.put("potato", () -> {
                 switch(room) {
                     case "room2Left":
+                        actions.remove("eat");
                         System.out.println("You throw the POTATO at the CAKE and it explodes. This reveals an ORANGE KEY that was hidden in the CAKE.\nKeyword:\"orangekey\"");
-                        inventory.put("orangekey", () -> {
+                        inventory.put("orangekey", () -> { //orange goes in orange room/orange fruit player will stay mad
                             switch(room) {
                                 default:
                                     System.out.println("You can't use this key here.");
                                     break;
                             }
                         });
+                        inventory.remove("potato");
                         break;
                     default:
                         System.out.println("You can't use this here.");
                         break;
                 }
             });
-            actions.remove("left");
+            actions.remove("pickup left");
         });
 
-        actions.put("middle", () -> {
+        actions.put("pickup middle", () -> {
             System.out.println("You cut your hand on a COMICALLY LARGE KNIFE and put it in your inventory.\nKeyword:\"knife\"");
             inventory.put("knife", () -> {
                 switch(room) {
@@ -57,10 +59,10 @@ public class Main {
                 }
             });
             HP--;
-            actions.remove("middle");
+            actions.remove("pickup middle");
         });
 
-        actions.put("right", () -> {
+        actions.put("pickup right", () -> {
             System.out.println("Picking up the object triggers a pressure plate, blowing up the room.");
             HP = 0;
         });
@@ -69,12 +71,24 @@ public class Main {
         //takes input as long as player is alive
         while (HP != 0) {
             String choice = scan.nextLine();
+            String itemChoice = "";
             switch (choice) {
                 case "inventory":
-                    inventory.get(scan.nextLine()).run();
+                    System.out.println("--Inventory--Enter Keyword--");
+                    itemChoice = scan.nextLine();
+                    if (inventory.get(itemChoice) != null && itemChoice != "") {
+                        inventory.get(itemChoice).run();
+                    } else {
+                        System.out.println("You don't have a(n) " + itemChoice);
+                    }
+
                     break;
                 default:
-                    actions.get(choice).run();
+                    if(actions.get(choice) != null && choice != "") {
+                        actions.get(choice).run();
+                    } else {
+                        System.out.println("You can't " + choice + " here.");
+                    }
             }
         }
         if (HP == 0) {
@@ -91,8 +105,9 @@ public class Main {
             actions = room2Left();
         });
         newActions.put("right", () -> {
+            //yellow room just kills you, so new rooms should be added to find an item to survive
             System.out.println("You enter the RIGHT room.");
-            //set to new room
+            yellowRoom();
         });
         return  newActions;
     }
@@ -103,10 +118,19 @@ public class Main {
         System.out.println("You find a cake on the floor.\n\"eat\" \"leave and enter yellow door\"");
         newActions.put("eat", () -> {
             System.out.println("The cake explodes before you can taste it, causing you to fall into a deep depression and dying.");
+            HP = 0;
         });
         newActions.put("leave and enter yellow door", () -> {
         });
         return newActions;
+    }
+    public static HashMap<String,Runnable> yellowRoom(){
+        room = "yellowRoom";
+        System.out.println("You are now in the yellow");
+        System.out.println("The sun is being contained in the yellow room");
+        System.out.println("The sun burns you :");
+        HP = 0;
+       return null;
     }
 
 }
