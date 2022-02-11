@@ -2,6 +2,11 @@ package com.company;
 
 import java.util.Scanner;
 import java.util.HashMap;
+import com.company.colors;
+
+// USE COLORS LIKE THIS:
+// colors.red("YOUR STRING");
+// REFER TO colors.java TO FIND COLOR FUNCTIONS
 
 public class Main {
     private static HashMap<String, Runnable> actions = new HashMap<>();
@@ -10,7 +15,13 @@ public class Main {
     static int HP = 10;
 
     public static void main(String[] args) {
+
         Scanner scan = new Scanner(System.in);
+
+        // COLORS
+        System.out.println(colors.red("Hello") + colors.blue("World"));
+
+
         room = "roomOne";
         System.out.println("You wake up in a dark room. You find three objects in front of you, but you can't quite see what they are.\nItems may be used at any time by typing \"inventory\" but will only prove to be useful in certain situations.\n\"left\" \"middle\" \"right\" \"continue\" (You can select several objects)");
 
