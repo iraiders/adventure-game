@@ -75,11 +75,11 @@ public class Main {
         });
 
         actions.put("pickup middle", () -> {
-            System.out.println("You cut your hand on a COMICALLY LARGE KNIFE and put it in your inventory.\nKeyword:" + colors.magenta("\"knife\""));
+            System.out.println("You cut your hand on a COMICALLY LARGE BANANA and put it in your inventory.\nKeyword:" + colors.magenta("\"knife\""));
             inventory.put("knife", () -> {
                 switch (room) {
                     default:
-                        System.out.println("You find that the COMICALLY LARGE KNIFE is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
+                        System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
                         break;
                 }
             });
@@ -88,7 +88,7 @@ public class Main {
         });
 
         actions.put("pickup right", () -> {
-            System.out.println("Picking up the object triggers a PRESSURE PLATE, blowing up the room.");
+            System.out.println("Picking up the object triggers a PRESSURE PLATE, kicking you out of the room.");
             HP = 0;
         });
 
