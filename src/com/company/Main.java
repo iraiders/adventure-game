@@ -148,7 +148,7 @@ public class Main {
         room = "room2Left";
         System.out.println("You find a cake on the floor. There's also another door in front of you.\n" + colors.blue("\"eat\"") + " " + colors.blue("\"leave and enter yellow door\"" + " " + colors.blue("\"continue\"")));
         newActions.put("eat", () -> {
-            System.out.println("The cake explodes before you can taste it, causing you to fall into a deep depression and dying.");
+            System.out.println("The cake explodes before you can taste it, causing you to stop trying to escape.\n you levitate out of the game.");
             HP = 0;
         });
         newActions.put("leave and enter yellow door", () -> {
@@ -164,7 +164,7 @@ public class Main {
         room = "yellowRoom";
         System.out.println("You are now in the yellow");
         System.out.println("The sun is being contained in the yellow room");
-        System.out.println("The sun burns you :");
+        System.out.println("The sun welcomes you :");
         HP = 0;
         return null;
     }
