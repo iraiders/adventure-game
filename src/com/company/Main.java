@@ -165,7 +165,7 @@ public class Main {
         System.out.println("You are now in the yellow");
         System.out.println("The sun is being contained in the yellow room");
         System.out.println("The sun welcomes you :");
-        HP = 0;
+        HP = 100;
         return null;
     }
 
