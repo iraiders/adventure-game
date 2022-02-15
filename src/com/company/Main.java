@@ -30,6 +30,8 @@ public class Main {
     static String eggName = "";
     static boolean hasOrangeDoorKey = false;
     static boolean enteredYellow = false;
+    static boolean eggHasBanana = false;
+    static boolean eggIsFighting = false;
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
@@ -41,7 +43,33 @@ public class Main {
         room = "roomOne";
         System.out.println(colors.yellow("You feel that 2713 is a relevant number that will prove to be useful in your adventure"));
         System.out.println("You wake up in a dark room. You find three objects in front of you, but you can't quite see what they are.\nItems may be used at any time by typing " + colors.blue("\"inventory\"") + " but will only prove to be useful in certain situations.\n" + colors.blue("\"pickup left\"") + " " + colors.blue("\"pickup middle\"") + " " + colors.blue("\"pickup right\"") + " " + colors.blue("\"continue\"") + " (You can select several objects)");
+        //skip to 2nd to last room
+        actions.put("skip", () -> {
+            hasOrangeDoorKey = true;
+            inventory.put("egg", () -> {
+                switch (room) {
+                    case "lastroom":
+                        System.out.println(eggName + " enters the battlefield.");
+                        eggIsFighting = true;
+                    default:
+                        System.out.println(eggName + " stands proudly, offering you moral support");
+                        break;
+                }
+            });
+            inventory.put("banana", () -> {
+                switch (room) {
+                    case "lastroom":
+                        System.out.println("egg equips the banana");
+                        eggHasBanana = true;
+                        break;
+                    default:
+                        System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
+                        break;
+                }
+            });
 
+            actions = orangeDoorRoom();
+        });
         actions.put("pickup left", () -> {
             System.out.println("You pick up a half-eaten potato.\nKeyword:" + colors.magenta("\"potato\""));
             // Example of creating an item. Use inventory.put followed by keyword (input needed to access) and what it does
@@ -57,7 +85,7 @@ public class Main {
                                 System.out.println("You impale the ORANGE with your ORANGE KEY and enjoy its contents, revealing an ORANGE DOOR KEY in its center.\nKeyword:" + colors.magenta("orangedoorkey"));
                                 inventory.put("orangedoorkey", () -> {
                                     switch(room) {
-                                        case "orangeAndBlueRoom":
+                                        case "orangeDoorRoom":
                                             hasOrangeDoorKey = true;
                                             System.out.println("You unlock the door, allowing you to continue to the next room.");
                                             break;
@@ -67,7 +95,7 @@ public class Main {
                                     }
                                 });
                                 hasOrange = false;
-                            } else if (room == "orangeAndBlueRoom") {
+                            } else if (room == "orangeDoorRoom") {
                                 System.out.println("This ORANGE KEY doesn't work on this ORANGE DOOR.");
                             } else {
                                 System.out.println("You can't use this key here.");
@@ -89,8 +117,10 @@ public class Main {
             System.out.println("You cut your hand on a COMICALLY LARGE BANANA and put it in your inventory.\nKeyword:" + colors.magenta("\"banana\""));
             inventory.put("banana", () -> {
                 switch (room) {
-                    case "lastroom": System.out.println("egg equipes the banana");
-                    break;
+                    case "lastroom":
+                        System.out.println("egg equips the banana");
+                        eggHasBanana = true;
+                        break;
                     default:
                         System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
                         break;
@@ -189,7 +219,7 @@ public class Main {
 
         System.out.println(colors.blue("\"continue\""));
         newActions.put("continue", () -> {
-            actions = orangeAndBlueRoom();
+            actions = orangeDoorRoom();
         });
         return newActions;
     }
@@ -209,10 +239,10 @@ public class Main {
         return newActions;
     }
 
-    public static HashMap<String, Runnable> orangeAndBlueRoom() {
+    public static HashMap<String, Runnable> orangeDoorRoom() {
         HashMap<String, Runnable> newActions = new HashMap<>();
         Scanner scan = new Scanner(System.in);
-        room = "orangeAndBlueRoom";
+        room = "orangeDoorRoom";
         System.out.println("Upon entering the room, you find a SUSPICIOUS TREASURE CHEST in the center and an ORANGE DOOR across from you.");
         System.out.println(colors.blue("\"treasure\" \"continue\" \"back to purple room\""));
 
@@ -221,6 +251,9 @@ public class Main {
             System.out.println(colors.magenta("egg"));
             inventory.put("egg", () -> {
                 switch (room) {
+                    case "lastroom":
+                        System.out.println(eggName + " enters the battlefield.");
+                        eggIsFighting = true;
                     default:
                         System.out.println(eggName + " stands proudly, offering you moral support");
                         break;
@@ -235,6 +268,7 @@ public class Main {
         newActions.put("continue", () -> {
             if (hasOrangeDoorKey) {
                 System.out.println("You enter the door.");
+                actions = lastRoom();
             } else {
                 System.out.println("The door is locked. If only you had a matching key...");
             }
@@ -248,6 +282,7 @@ public class Main {
 
     public static HashMap<String, Runnable> lastRoom() {
         HashMap<String, Runnable> newActions = new HashMap<>();
+        room = "lastroom";
         System.out.println("you can now see the exit, so close yet so far");
         System.out.println("you can use the banana or egg in this room to assist with your escape ");
         System.out.println("please type which items you will choose 'banana' 'egg', then type 'contiune' ");
