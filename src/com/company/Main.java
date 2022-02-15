@@ -25,13 +25,14 @@ public class Main {
     private static HashMap<String, Runnable> actions = new HashMap<>();
     private static HashMap<String, Runnable> inventory = new HashMap<>();
     static String room = "";
-    static int HP = 4;
+    static int HP = 3;
     static boolean hasOrange = false;
     static String eggName = "";
     static boolean hasOrangeDoorKey = false;
     static boolean enteredYellow = false;
-    static boolean eggHasBanana = false;
+    static boolean hasBanana = false;
     static boolean eggIsFighting = false;
+    static boolean exitIsOpen = false;
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
@@ -46,11 +47,13 @@ public class Main {
         //skip to 2nd to last room
         actions.put("skip", () -> {
             hasOrangeDoorKey = true;
+            eggName = "bob";
             inventory.put("egg", () -> {
                 switch (room) {
                     case "lastroom":
                         System.out.println(eggName + " enters the battlefield.");
                         eggIsFighting = true;
+                        break;
                     default:
                         System.out.println(eggName + " stands proudly, offering you moral support");
                         break;
@@ -59,8 +62,12 @@ public class Main {
             inventory.put("banana", () -> {
                 switch (room) {
                     case "lastroom":
-                        System.out.println("egg equips the banana");
-                        eggHasBanana = true;
+                        if (eggName != "") {
+                            System.out.println("The COMICALLY LARGE BANANA levitates out of your inventory and into " + eggName + "'s grasp.");
+                        } else {
+                            System.out.println("You still can't lift the COMICALLY LARGE BANANA but still decide to carry it with you.");
+                        }
+                        hasBanana = true;
                         break;
                     default:
                         System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
@@ -118,8 +125,12 @@ public class Main {
             inventory.put("banana", () -> {
                 switch (room) {
                     case "lastroom":
-                        System.out.println("egg equips the banana");
-                        eggHasBanana = true;
+                        if (eggName != "") {
+                            System.out.println("The COMICALLY LARGE BANANA levitates out of your inventory and into " + eggName + "'s grasp.");
+                        } else {
+                            System.out.println("You still can't lift the COMICALLY LARGE BANANA but still decide to carry it with you.");
+                        }
+                        hasBanana = true;
                         break;
                     default:
                         System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
@@ -191,8 +202,8 @@ public class Main {
         room = "room2Left";
         System.out.println("You find a cake on the floor. There's also another door in front of you.\n" + colors.blue("\"eat\"") + " " + colors.blue("\"back to yellow door\"" + " " + colors.blue("\"continue\"")));
         newActions.put("eat", () -> {
-            System.out.println("The cake explodes before you can taste it, causing you to stop trying to escape.\nYou levitate out of the game.");
-            HP = 0;
+            System.out.println("The cake explodes before you can taste it, demotivating you from continuing your adventure.");
+            HP--;
         });
         newActions.put("back to yellow door", () -> {
             actions = yellowRoom();
@@ -254,6 +265,7 @@ public class Main {
                     case "lastroom":
                         System.out.println(eggName + " enters the battlefield.");
                         eggIsFighting = true;
+                        break;
                     default:
                         System.out.println(eggName + " stands proudly, offering you moral support");
                         break;
@@ -283,11 +295,38 @@ public class Main {
     public static HashMap<String, Runnable> lastRoom() {
         HashMap<String, Runnable> newActions = new HashMap<>();
         room = "lastroom";
-        System.out.println("you can now see the exit, so close yet so far");
-        System.out.println("you can use the banana or egg in this room to assist with your escape ");
-        System.out.println("please type which items you will choose 'banana' 'egg', then type 'contiune' ");
-        System.out.println("an evil egg is blocking the exit");
+        System.out.println("You can now see the exit, so close yet so far");
+        System.out.println("Two unused items will assist you in your escape");
+        System.out.println("Choose your items, then type " + colors.blue("continue"));
+        newActions.put("continue", () -> {
+            System.out.println("An evil egg is blocking the exit");
+            if (eggIsFighting && hasBanana) {
+                System.out.println("In the blink of an eye, " + eggName + " EGGS-TERMINATES the evil egg, clearing the path to the exit.");
+                exitIsOpen = true;
+            } else if (eggIsFighting) {
+                System.out.println("Sacrificing itself, " + eggName + " throws itself at the evil egg and EGG-SPELLS it from the dungeon. The path to the exit clears, but at what cost?");
+                exitIsOpen = true;
+            } else if (hasBanana) {
+                System.out.println("The COMICALLY LARGE BANANA began a sudden allergic reaction for the evil egg, weakening its EGGS-OSKELETON.");
+                System.out.println("You battle the evil egg");
+                HP--;
+                exitIsOpen = true;
+            } else {
+                System.out.println("You engage in hand-to-hand combat with the evil egg.");
+                exitIsOpen = true;
+                HP -= 2;
+            }
+            if (exitIsOpen) {
+                System.out.println(colors.blue("exit"));
+                newActions.put("exit", () -> {
+                    //last dialogue
+                    System.out.println("Your surroundings illuminate as you approach the sunlight at the end of the exit. As you take a step on the grass outside, you find ");
+                });
+            }
+
+        });
         return newActions;
     }
 
 }
+//exiled exoskeleton expelled extravaganza
