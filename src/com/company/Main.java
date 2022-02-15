@@ -89,7 +89,7 @@ public class Main {
             System.out.println("You cut your hand on a COMICALLY LARGE BANANA and put it in your inventory.\nKeyword:" + colors.magenta("\"banana\""));
             inventory.put("banana", () -> {
                 switch (room) {
-                    case "lastroom": System.out.println("egg equipes the banana");
+                    case "lastroom": System.out.println("egg equips the banana");
                     break;
                     default:
                         System.out.println("You find that the COMICALLY LARGE BANANA is too heavy for you to remove from your inventory.\nYou wonder how you got it there.");
@@ -250,7 +250,7 @@ public class Main {
         HashMap<String, Runnable> newActions = new HashMap<>();
         System.out.println("you can now see the exit, so close yet so far");
         System.out.println("you can use the banana or egg in this room to assist with your escape ");
-        System.out.println("please type which items you will choose 'banana' 'egg', then type 'contiune' ");
+        System.out.println("please type which items you will choose 'banana' 'egg', then type 'continue' ");
         System.out.println("an evil egg is blocking the exit");
         return newActions;
     }
