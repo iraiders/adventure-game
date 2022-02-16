@@ -320,7 +320,10 @@ public class Main {
                 System.out.println(colors.blue("exit"));
                 newActions.put("exit", () -> {
                     //last dialogue
-                    System.out.println("Your surroundings illuminate as you approach the sunlight at the end of the exit. As you take a step on the grass outside, you find ");
+                    System.out.println("Congratulations, you have defeated the EVIL EGG with your EGG-SPERTISE and are now leaving the dungeon.");
+                    System.out.println("Your surroundings illuminate as you approach the sunlight at the end of the exit. As you take a step on the grass outside, to find a giant egg towering above you out in the wilderness.");
+                    System.out.println("Your face goes pale when you see the two giant googly eyes looking down on you from above");
+                    System.out.println("Your former companion swiftly attacks you despite his size and everything goes dark, its all over.");
                 });
             }
 
